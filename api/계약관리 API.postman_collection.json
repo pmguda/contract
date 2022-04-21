@@ -1,0 +1,605 @@
+{
+	"info": {
+		"_postman_id": "a21b692d-0993-4508-8907-0a32cd6450d7",
+		"name": "계약관리 API",
+		"description": "계약관리 API 시스템 구축\n\n1.  계약생성\n2.  계약정보 조회\n3.  계약정보 수정\n4.  예상 총 보험료 계산",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "계약생성 API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cntrPrd\": 3,\n  \"insDto\": [\n    {\"grntCd\": \"I000201\"}\n    ,{\"grntCd\": \"I000202\"}\n  ],\n  \"prodCd\": \"P0002\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/contract/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contract",
+						"create"
+					]
+				},
+				"description": "계약생성 API\n\n*   최초 계약상태 정상계약\n*   계약 생성시점 총 보험료 산출\n*   상품별 담보 유효성 체크\n*   상품별 계약기간 체크"
+			},
+			"response": [
+				{
+					"name": "정상계약생성",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cntrPrd\": 3,\n  \"insDto\": [\n    {\"grntCd\": \"I000201\"}\n    ,{\"grntCd\": \"I000202\"}\n  ],\n  \"prodCd\": \"P0002\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"create"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:14:33 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"계약이 정상적으로 체결되었습니다.\",\n    \"data\": \"5aa6099c7fdf780a017fdf783b090000\"\n}"
+				},
+				{
+					"name": "상품별 가입불가 담보",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cntrPrd\": 3,\n  \"insDto\": [\n    {\"grntCd\": \"I000201\"}\n    ,{\"grntCd\": \"I000102\"}\n  ],\n  \"prodCd\": \"P0002\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"create"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:37:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"상품에 포함되지 않는 담보입니다.\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "상품별 가입가능기간 오류",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cntrPrd\": 50,\n  \"insDto\": [\n    {\"grntCd\": \"I000201\"}\n    ,{\"grntCd\": \"I000202\"}\n  ],\n  \"prodCd\": \"P0002\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"create"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:39:00 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"유효하지 않는 범위 값입니다.\",\n    \"data\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "계약조회 API",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"poliNo\":\"adfadfads\",\n\"prodCd\":\"P0001\",\n\"cntrPrd\": 1,\n\"cntrDt\":\"20211212\",\n\"insDto\": \n[ \n{\n\"insId\":\"aaaaaa\",\n\"grntCd\":\"I000101\"\n} \n,{\n\"grntCd\":\"I000102\"\n} \n] \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/contract/get/test1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contract",
+						"get",
+						"test1"
+					]
+				},
+				"description": "계약정보 조회 API\n\n*   증권번호에 대한 계약 상세정보 조회"
+			},
+			"response": [
+				{
+					"name": "정상 계약 조회",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"poliNo\":\"adfadfads\",\n\"prodCd\":\"P0001\",\n\"cntrPrd\": 1,\n\"cntrDt\":\"20211212\",\n\"insDto\": \n[ \n{\n\"insId\":\"aaaaaa\",\n\"grntCd\":\"I000101\"\n} \n,{\n\"grntCd\":\"I000102\"\n} \n] \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/get/test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"get",
+								"test1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:20:55 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"정상적으로 조회되었습니다.\",\n    \"data\": {\n        \"poliNo\": \"test1\",\n        \"prodCd\": \"P0002\",\n        \"prodNm\": \"휴대폰보험\",\n        \"cntrPrd\": 3,\n        \"cntrDt\": \"20220127\",\n        \"exDt\": \"20220426\",\n        \"cntrScd\": \"NORMAL\",\n        \"totPrm\": 176960.52,\n        \"insDto\": [\n            {\n                \"insId\": \"test1ins1\",\n                \"poliNo\": \"test1\",\n                \"grntCd\": \"I000201\",\n                \"grntNm\": \"부분손실\",\n                \"joinAmt\": 750000,\n                \"baseAmt\": 38\n            },\n            {\n                \"insId\": \"test1ins2\",\n                \"poliNo\": \"test1\",\n                \"grntCd\": \"I000202\",\n                \"grntNm\": \"전체손실\",\n                \"joinAmt\": 1570000,\n                \"baseAmt\": 40\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "예상 총 보험료 계산 API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"prodCd\":\"P0002\",\n\"cntrPrd\": 7,\n\"grntCd\": [ \"I000201\", \"I000202\"] \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/contract/calc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contract",
+						"calc"
+					]
+				},
+				"description": "예상 총 보험료 계산 API\n\n가입 전 보험료 미리 산출\n\n계약기간 x ((가입금액1 / 기준금액1) + (가입금액2 / 기준금액2))\n\n*   예상 총 보험료 산출\n*   미판매 상품코드 체크\n*   상품코드별 담보 체크\n*   상품코드별 가입 가능 계약기간 체크"
+			},
+			"response": [
+				{
+					"name": "예상 보험료 정상조회",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"prodCd\":\"P0002\",\n\"cntrPrd\": 7,\n\"grntCd\": [ \"I000201\", \"I000202\"] \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/calc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"calc"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:22:30 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"정상적으로 조회되었습니다.\",\n    \"data\": 412907.88\n}"
+				}
+			]
+		},
+		{
+			"name": "계약정보수정 API",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"cntrPrd\": \"12\"\n,\"grntCd\": [ \"I000201\",\"I000202\"] \n,\"cntrScd\": \"NORMAL\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/contract/update/test1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contract",
+						"update",
+						"test1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "계약정보 수정 정상",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"cntrPrd\": \"12\"\n,\"grntCd\": [ \"I000201\",\"I000202\"] \n,\"cntrScd\": \"NORMAL\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/update/test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"update",
+								"test1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:34:56 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"계약이 정상적으로 변경되었습니다.\",\n    \"data\": \"test1\"\n}"
+				},
+				{
+					"name": "상품 하위 담보 변경 오류",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"cntrPrd\": \"12\"\n,\"grntCd\": [ \"I000101\",\"I000202\"] \n,\"cntrScd\": \"NORMAL\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/update/test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"update",
+								"test1"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:49:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"상품에 포함되지 않는 담보입니다.\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "상품별 가입가능 기간 변경 오류",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"cntrPrd\": \"50\"\n,\"grntCd\": [ \"I000201\",\"I000202\"] \n,\"cntrScd\": \"NORMAL\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/update/test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"update",
+								"test1"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:50:47 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"유효하지 않는 범위 값입니다.\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "기간만료 상태건 변경 불가",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"cntrPrd\": \"12\"\n,\"grntCd\": [ \"I000201\",\"I000202\"] \n,\"cntrScd\": \"NORMAL\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/contract/update/test1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contract",
+								"update",
+								"test1"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 31 Mar 2022 10:51:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"기간만료이후 변경 불가합니다.\",\n    \"data\": null\n}"
+				}
+			]
+		}
+	]
+}
