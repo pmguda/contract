@@ -87,11 +87,10 @@ curl -v -H 'Content-Type: application/json' -x PUT 'localhost:8080/contract/upda
 - 링크 접속 : http://localhost:8080/swagger-ui/index.html#/
   ![swagger 명세](https://user-images.githubusercontent.com/11697119/161027375-ea67e40d-9e0a-4c0a-8416-d196fae6f72f.png)
 
-
-# 선택과제
+  
 ## 안내장 발송 기능
 만기가 도래한 계약에 대해 일주일 전 안내장 발송
-- 시스템 출력이나 로그 메세지로 대체 가능
+- 시스템 출력이나 로그 메세지로 대체
 
 ### Framework
 - Gradle 7.4.1
